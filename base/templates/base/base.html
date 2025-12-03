@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base/css/styles.css' %}">
+    <title>{% block title %} eat smart {% endblock %}</title>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <div class="nav-links">
+            <div class="nav-link">
+                <a href="/home"> home </a>
+            </div>
+
+            <div class="nav-link" >
+                <a href="/about"> about us</a>
+            </div>
+
+            <div class="nav-link">
+                <a href="/contact"> contact us</a>
+            </div>
+
+            <div class="nav-link">
+                <a href="/login"> login </a>
+            </div>
+
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+    
+    
+</body>
+</html>
