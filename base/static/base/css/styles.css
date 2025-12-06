@@ -16,12 +16,11 @@ body {
     justify-content: space-between;
     width: 100%;
 }
-.header .nav-links .nav-link a {
+
+.header > .nav-links > .nav-link > a {
     color: azure;
     text-decoration: none;
 }
 
-.nav-link {
-    color: azure;
-    text-decoration: none;
-}
+
+

@@ -1,8 +1,12 @@
 {% extends 'base/base.html' %}
-{% block title %} food item  {% endblock %}
+
+{% block title %}Food Item{% endblock %}
+
+{% block content %}
 <h1>Add Food Item</h1>
 <form method="POST">
     {% csrf_token %}
     <input type="text" name="food_name" placeholder="Enter food name">
     <button type="submit">Save</button>
 </form>
+{% endblock %}

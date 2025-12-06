@@ -1,8 +1,9 @@
 {% extends 'base/base.html' %}
-{% block title %} home {% endblock %}
-{% load crispy_forms_tags %}
+{% block title %}home{% endblock %}
+
 {% block content %}
 <div class="content">
-    <p> <a href="/food_item/"> add food item </a></p>
+    <p> add food item <a href="{% url 'food_item'%}" class="homepage-link"> here </a></p>
 </div>
+
 {% endblock %}

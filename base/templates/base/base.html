@@ -5,39 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'base/css/styles.css' %}">
-    <title>{% block title %} eat smart {% endblock %}</title>
-</head>
+    <title>{% block title %}eat smart{% endblock %}</title>
 
+</head>
 <body>
 
-    <div class="header">
+    <!-- Header / Navigation -->
+    <header class="header">
+        <nav class="nav-links">
+            <div class="nav-link"><a href="/home">home</a></div>
+            <div class="nav-link"><a href="/about">about us</a></div>
+            <div class="nav-link"><a href="/contact">contact us</a></div>
+            <div class="nav-link"><a href="/login">login</a></div>
+        </nav>
+    </header>
 
-        <div class="nav-links">
-            <div class="nav-link">
-                <a href="/home"> home </a>
-            </div>
+    <!-- Main page content -->
+    <main class="page-content">
+        {% block content %}
+        {% endblock %}
+    </main>
 
-            <div class="nav-link" >
-                <a href="/about"> about us</a>
-            </div>
-
-            <div class="nav-link">
-                <a href="/contact"> contact us</a>
-            </div>
-
-            <div class="nav-link">
-                <a href="/login"> login </a>
-            </div>
-
-        </div>
-
-        
-
-    </div>
-
-    {% block content %}
-    {% endblock %}
-    
-    
 </body>
 </html>
