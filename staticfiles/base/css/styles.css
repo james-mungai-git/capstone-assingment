@@ -10,7 +10,7 @@ body {
     background-color: black;
 }
 
-.nav-links {
+.header >.nav-links {
     display: flex;
     align-items: center;
     justify-content: space-between;

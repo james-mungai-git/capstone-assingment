@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import Register
+from .models import User, UserProfile, FoodItem
 
 # Home view
 def home(request):
@@ -16,3 +17,10 @@ def signup(request):
         form = Register()
 
     return render(request, 'base/registration/sign_up.html', {'form': form})
+
+def user(request):
+    pass
+
+
+def fooditem(request):
+    return render (request,'base/food_item.html' )
