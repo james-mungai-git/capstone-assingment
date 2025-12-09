@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
-from .forms import Register, UserProfileForm
-from .models import UserProfile, FoodItem
+from .forms import Register, UserProfileForm, BlogPostForm
+from .models import UserProfile, FoodItem, BlogPost
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django import forms
+from django.urls import reverse_lazy
+from django.core.exceptions import PermissionDenied
 
 # Home view
 def home(request):
@@ -9,10 +14,10 @@ def home(request):
 # Signup view
 def signup(request):
     if request.method == "POST":
-        form = Register(request.POST)  # <-- use uppercase POST
+        form = Register(request.POST)  
         if form.is_valid():
-            form.save()  # Save the user
-            return redirect('login')  # Redirect to login after successful signup
+            form.save()  
+            return redirect('login')  
     else:
         form = Register()
 
@@ -31,5 +36,61 @@ def userprofile(request):
 
     return render(request, 'base/user-profile.html', {'form': form})
 
+# blogpost crud operations
 
+class BlogPostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = BlogPost
+    template_name = "base/blog-post.html"
+    form_class = BlogPostForm
+    success_url = reverse_lazy("blog-list")
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return True
+
+class BlogPostDetailView(DetailView):
+    model = BlogPost
+    template_name = "blog/blog-detail.html"
+    context_object_name = 'post'
+    
+
+class BlogPostListView(ListView):
+    model = BlogPost
+    template_name = "base/blog-list.html"
+    context_object_name = 'posts'
+    ordering = ['-published_date']
+    
+
+class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = BlogPost
+    template_name = "base/blog-delete.html"
+    success_url = reverse_lazy("blog-list")  # usually list view
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.author != self.request.user:
+            raise PermissionDenied()
+        return obj
+
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.author
+   
+            
         
+class BlogPostUpdateView(UpdateView):
+    model = BlogPost
+    fields = ["title", "contents"]
+    template_name = "base/blog-post.html"
+    success_url = reverse_lazy("blog-post")
+    
+    def test_func(self):
+        post = self.get.object
+        return self.request.author == post.author
+    
+
+
+

@@ -14,11 +14,13 @@
     <header class="header">
         <nav class="nav-links">
             <div class="nav-link"><a href="/home">home</a></div>
-            <div class="nav-link"><a href="/about">about us</a></div>
-            <div class="nav-link"><a href="/contact">contact us</a></div>
+            <div class="nav-link"><a href="{% url 'blog-list' %}">community forum</a></div>
+            <div class="nav-link"><a href="{% url 'blog-post' %}"> blog post </a></div>
 
             {% if user.is_authenticated%}
             <div class="nav-link"><a href="{% url 'user-profile' %}">user profile</a></div>
+            <div class="nav-link"><a href="{% url 'login' %}">logout</a></div>
+
             {% else %}
             <div class="nav-link"><a href="/login">login</a></div>
             {% endif %}

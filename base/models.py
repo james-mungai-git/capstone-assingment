@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.contrib.auth.models import User
+from django.db import models
+
 class UserProfile(models.Model):
-    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # renamed for clarity
     age = models.PositiveIntegerField(null=True, blank=True)
     height = models.FloatField(null=True, blank=True)
     weight = models.PositiveIntegerField(null=True, blank=True)
@@ -12,7 +15,8 @@ class UserProfile(models.Model):
         choices=[
             ('male', 'Male'),
             ('female', 'Female'),
-        ]
+        ],
+        default='male'  
     )
 
     activity_level = models.CharField(
@@ -24,15 +28,24 @@ class UserProfile(models.Model):
             ('moderately_active', 'Moderately Active'),
             ('high', 'High'),
             ('highly_active', 'Highly Active'),
-        ]
+        ],
+        default='light'  
     )
 
     def __str__(self):
         return f"{self.user.username}'s profile"
-
 
 class FoodItem(models.Model):
     food_name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.food_name
+    
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    published_date = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+
+    def __str__(self):
+        return self.title
