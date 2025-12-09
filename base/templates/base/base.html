@@ -18,8 +18,8 @@
             <div class="nav-link"><a href="{% url 'blog-post' %}"> blog post </a></div>
 
             {% if user.is_authenticated%}
-            <div class="nav-link"><a href="{% url 'user-profile' %}">user profile</a></div>
-            <div class="nav-link"><a href="{% url 'login' %}">logout</a></div>
+            <div class="nav-link"><a href="{% url 'user-profile' %}">logged in as {{user.username}}</a></div>
+            <div class="nav-link"><a href="{% url 'logout' %}">logout</a></div>
 
             {% else %}
             <div class="nav-link"><a href="/login">login</a></div>
@@ -28,7 +28,7 @@
     </header>
 
     <!-- Main page content -->
-    <main class="page-content">
+    <main class="{% block main_class %}page-content{% endblock %}">
         {% block content %}
         {% endblock %}
     </main>

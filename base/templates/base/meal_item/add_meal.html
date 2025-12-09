@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% block title %}add meal item {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <label for="id_meal"> Enter meal</label>
+    {{form.meal}}
+    <label for="id_food">Enter food</label>
+    {{form.food}}
+    <label for="id_quantity"> quantity eaten </label>
+    {{form.quantity}}
+
+</form>
+
+{% endblock %}

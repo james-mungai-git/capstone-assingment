@@ -22,5 +22,99 @@ body {
     text-decoration: none;
 }
 
+.login {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+    background: whitesmoke;
+    box-shadow: inset 0px -26px 79px -8px rgba(0, 0, 0, 0.58);
+    transition: 10s;
+}
+.login label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
+}
 
+.login input {
+    border-radius: 3px;
+    transition: 5s;
+}
+
+.login input:hover{
+    color: #cea135;
+    border-color: #cea135;
+
+}
+
+.register{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: white;
+    box-shadow: inset 0px -26px 79px -8px rgba(0, 0, 0, 0.58);
+}
+.register label{
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.post {
+    display: grid;
+    justify-content: left;
+    align-items: center;
+    margin: 2rem;
+    width: 100vh;
+}
+
+.post label {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+.post input {
+    border-radius: 3px;
+
+}
+.post content{
+    border-radius: 3px;
+}
+
+.post button {
+    margin-top: 2rem;
+}
+
+.post-content{
+    margin: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-success{
+        background-color: blue;
+    color: white;
+    margin: 1rem;
+    border-radius: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration: none;
+}
+.btn-danger{
+    background-color: red;
+    color: white;
+    margin: 1rem;
+    border-radius: 2px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration: none;
+}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from datetime import date, datetime
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -35,11 +36,6 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s profile"
 
-class FoodItem(models.Model):
-    food_name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.food_name
     
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
@@ -49,3 +45,29 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+    
+class FoodItem(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    calories_per_100g = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.name
+
+class Meal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    date = models.DateField(default=date.today)  
+    time = models.TimeField(default=timezone.now)
+    foods = models.ManyToManyField(FoodItem, through='MealItem')
+
+    def __str__(self):
+        return f"{self.name} on {self.date}"
+
+class MealItem(models.Model):
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE, blank=True, null=True)
+    food = models.ForeignKey(FoodItem, on_delete=models.CASCADE, blank=True, null=True)
+    quantity = models.FloatField()
+
+    def calories(self):
+        return self.food.calories_per_100g * (self.quantity / 100)

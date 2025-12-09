@@ -3,13 +3,17 @@
 {% block title %}
     Login Page
 {% endblock %}
-
 {% load crispy_forms_tags %}
+{% block main_class %}page-content{% endblock %}
+
 
 {% block content %}
-<form method="post">
+<form method="post" class="login">
     {% csrf_token %}
-    {{ form|crispy }}
+     <label for="id_username">username</label>
+     {{ form.username }}
+     <label for="id_password">password</label>
+     {{ form.password }}
 
     <p>Don't have an account? Create one <a href="{% url 'signup' %}">here</a></p>
 

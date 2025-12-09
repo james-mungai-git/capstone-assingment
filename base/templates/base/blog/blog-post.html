@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block title %}blog post{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if user.is_authenticated%}
+<h1>post your experience</h1>
+<form method="post" class="post">
+    {% csrf_token %}
+    <label for="id_title">  Title</label>
+    {{form.title}}
+    <label for="id_content" class="content">Content</label>
+    {{form.content}}
+    <button type="submit" class="btn btn-success w-100">Post</button>
+</form>
+{% else %}
+<a href="{% url 'login' %}">login to create a Post</a>
+{% endif %}
+
+{% endblock %}

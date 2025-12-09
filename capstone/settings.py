@@ -125,12 +125,12 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
-# settings.py
 
 STATIC_URL = '/static/'
-
-# Where Django looks for static files during development
 STATICFILES_DIRS = [BASE_DIR / "base" / "static"]
 
-# Where collectstatic will copy all static files
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = '/login/' 
