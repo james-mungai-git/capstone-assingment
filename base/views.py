@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import Register
-from .models import User, UserProfile, FoodItem
+from .forms import Register, UserProfileForm
+from .models import UserProfile, FoodItem
 
 # Home view
 def home(request):
@@ -18,9 +18,18 @@ def signup(request):
 
     return render(request, 'base/registration/sign_up.html', {'form': form})
 
-def user(request):
-    pass
+def userprofile(request):
+    if request.method == "POST":
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('user-profile')
+    else:
+        form = UserProfileForm()
+
+    return render(request, 'base/user-profile.html', {'form': form})
 
 
-def fooditem(request):
-    return render (request,'base/food_item.html' )
+        
