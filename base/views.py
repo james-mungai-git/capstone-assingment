@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import Register, UserProfileForm, BlogPostForm, MealItemForm, MealForm
-from .models import UserProfile, FoodItem, BlogPost, MealItem
+from .forms import Register, UserProfileForm, BlogPostForm, MealItemForm, MealForm, Exerciseform
+from .models import UserProfile, FoodItem, BlogPost, MealItem, Meal, Exercise
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django import forms
@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import logout as auth_logout
 from .forms import FoodItemForm
+from django.contrib.postgres.search import SearchVector
+
 
 # Home view
 def home(request):
@@ -167,10 +169,10 @@ class FoodItemDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
 # mealitem crud
 
 
-class MealItemCreateView(CreateView):
-    model = MealItem
+class MealCreateView(CreateView):
+    model = Meal
     template_name = "base/meal_item/add_meal.html"
-    form_class = MealItemForm
+    form_class = MealForm
     success_url = reverse_lazy ('home')
     
     def form_valid(self, form):
@@ -178,11 +180,11 @@ class MealItemCreateView(CreateView):
         return super().form_valid(form)
     
  
-class MealItemUpdateView(UpdateView):
-     model = MealItem
+class MealUpdateView(UpdateView):
+     model = Meal
      template_name = "base/meal_item/update_meal.html"
      success_url =reverse_lazy ('home')
-     fields = ['meal', 'food', 'quantity']
+     fields = ['name','date', 'time', 'foods']
 
      
      def get_object(self, queryset=None):
@@ -193,16 +195,16 @@ class MealItemUpdateView(UpdateView):
             return obj
 
 
-class MealItemListView(ListView):
-    model = MealItem
+class MealListView(ListView):
+    model = Meal
     template_name = "base/meal_item/home.html"
     context_object_name = 'meals'
     
     def get_queryset(self):
         return MealItem.objects.filter(user=self.request.user)
 
-class MealItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = MealItem
+class MealDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Meal
     template_name = "base/home.html"
     success_url = reverse_lazy('home')
     
@@ -218,8 +220,8 @@ class MealItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
        
 
-class MealItemDetailView(DetailView):
-    model = MealItem
+class MealDetailView(DetailView):
+    model = Meal
     template_name = "base/meal_item/meal-detail.html"
     
     def get_object(self, queryset =None):

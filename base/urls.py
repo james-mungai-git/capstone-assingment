@@ -13,11 +13,11 @@ from .views import (
     FoodItemUpdateView,
     FoodItemDeleteView,
     
-    MealItemListView,
-    MealItemDetailView,
-    MealItemCreateView,
-    MealItemUpdateView,
-    MealItemDeleteView
+    MealListView,
+    MealDetailView,
+    MealCreateView,
+    MealUpdateView,
+    MealDeleteView
 )
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
@@ -38,11 +38,11 @@ urlpatterns = [
     path('food/<int:pk>/delete/', FoodItemDeleteView.as_view(), name='food-delete'),
     
     # meal item crud 
-    path('meal/',  MealItemListView.as_view(), name='home'),
-    path('meal/<int:pk>/', MealItemDetailView.as_view(), name='meal-detail'),
-    path('meal/new/', MealItemCreateView.as_view(), name='add_meal'),
-    path('meal/<int:pk>/edit/', MealItemUpdateView.as_view(), name='update_meal'),
-    path('meal/<int:pk>/delete/', MealItemDeleteView.as_view(), name='home'),
+    path('meal/',  MealListView.as_view(), name='home'),
+    path('meal/<int:pk>/', MealDetailView.as_view(), name='meal-detail'),
+    path('meal/new/', MealCreateView.as_view(), name='add_meal'),
+    path('meal/<int:pk>/edit/', MealUpdateView.as_view(), name='update_meal'),
+    path('meal/<int:pk>/delete/', MealDeleteView.as_view(), name='home'),
     
     
     path('', views.home, name='home'),

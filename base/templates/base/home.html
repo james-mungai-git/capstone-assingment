@@ -2,19 +2,24 @@
 {% block title %}home{% endblock %} 
 {% block content %} 
 <div class="content">
-    <p> add food item <a href="{% url 'food_item'%}" class="homepage-link"> here </a></p> 
-    <h4>add meal item </h4> 
 
-    <div class="meal-content"> 
-        <p> breakfast</p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a> 
-    </div> 
+    <aside class="sidebar">
+        <p> add food item <a href="{% url 'food_item'%}" class="homepage-link"> here </a></p> 
+        <h4>add meal item </h4> 
 
-    <div class="meal-content"> 
-        <p> lunch </p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a> 
-    </div> 
+        <div class="meal-content"> 
+            <p> breakfast</p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a> 
+        </div> 
+
+        <div class="meal-content"> 
+            <p> lunch </p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a> 
+        </div> 
+
+        <div class="meal-content"> 
+            <p> dinner </p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a>
+        </div>
+
+    </aside>
     
-    <div class="meal-content"> 
-        <p> dinner </p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a>
-    </div>
  </div>
   {% endblock %}

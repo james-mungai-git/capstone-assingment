@@ -1,34 +1,42 @@
 {% extends 'base/base.html' %}
-{% block title %}add meal item {% endblock %}
+{% block title %}add meal  {% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="meal-item">
-    <form method="post">
-    {% csrf_token %}
-    <div class="meal">
-        <label for="id_meal"> Enter meal</label>
-        {{form.meal}}
+
+<aside class="meal-sidebar">
+    <div class="meal-item">
+        <form method="post">
+            {% csrf_token %}
+            <div class="meal">
+                <label for="id_name">Name</label>
+                {{ form.name }}
+            </div>
+
+            <div class="meal">
+                <label for="id_date">Enter date</label>
+                {{ form.date }}
+            </div>
+
+            <div class="meal">
+                <label for="id_time">Time eaten</label>
+                {{ form.time }}
+            </div>
+
+            <div class="meal">
+                <label for="id_foods">Foods</label>
+                {{ form.foods }}
+            </div>
+                        
+
+            <button type="submit" > save </button>
+
+        </form>
+
     </div>
-    
 
-    <div class="meal">
-        <label for="id_food">Enter food</label>
-        {{form.food}}
-    </div>
-   
+</aside>
 
-    <div class="meal">
-        <label for="id_quantity"> quantity eaten </label>
-         {{form.quantity}}
-    </div>
-    
-
-    <button type="submit" > save </button>
-
-</form>
-
-</div>
 
 
 {% endblock %}

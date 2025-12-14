@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile, FoodItem, BlogPost, Meal, MealItem
+from .models import UserProfile, FoodItem, BlogPost, Meal, MealItem, Exercise
 
 class Register(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -28,6 +28,10 @@ class MealForm(forms.ModelForm):
         model = Meal
         
         fields = ['name','date', 'time', 'foods']
+        widgets = {
+            'foods': forms.CheckboxSelectMultiple()
+        }
+
 
 class MealItemForm(forms.ModelForm):
     class Meta:
@@ -41,3 +45,8 @@ class FoodItemForm(forms.ModelForm):
         model = FoodItem
         fields = ['name', 'user']
 
+class Exerciseform(forms.ModelForm):
+    class Meta:
+        model = Exercise
+        fields = ["rep_name", "category","duration_minutes", "calories_burnt" ]
+        
