@@ -156,10 +156,9 @@ body {
 }
 
 .btn-success{
-    background-color: blue;
+    background-color: #cea135;
     color: white;
     margin: 1rem;
-    border-radius: 2px;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 2px;
@@ -196,7 +195,7 @@ body {
 
 .sidebar {
     width: 220px;           
-    background-color: #b6ae9c;
+    background-color: rgb(170, 190, 190);
     color: white;
     padding: 1.5rem;
     height: 80vh;          
@@ -229,7 +228,7 @@ body {
 }
 .meal-sidebar{
     width: 220px;           
-    background-color: #b6ae9c;
+    background-color: rgb(170, 190, 190);
     color: white;
     padding-right: 1.5rem;
     height: 80vh;          

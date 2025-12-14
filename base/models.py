@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)  # renamed for clarity
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  
     age = models.PositiveIntegerField(null=True, blank=True)
     height = models.FloatField(null=True, blank=True)
     weight = models.PositiveIntegerField(null=True, blank=True)
@@ -67,10 +67,11 @@ class Meal(models.Model):
 class MealItem(models.Model):
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE, blank=True, null=True)
     food = models.ForeignKey(FoodItem, on_delete=models.CASCADE, blank=True, null=True)
-    quantity = models.FloatField()
+    quantity = models.FloatField(null=True, blank=True)
 
     def calories(self):
-        return self.food.calories_per_100g * (self.quantity / 100)
+        calories = self.food.calories_per_100g * (self.quantity / 100)
+        return calories
 
 
 class Exercise(models.Model):
@@ -94,10 +95,4 @@ class Exercise(models.Model):
     def __str__(self):
         return f"{self.calories_burned}"
 
-    def intensity_level(self):
-        if self.duration_minutes < 20:
-            return "Light"
-        elif self.duration_minutes < 60:
-            return "Moderate"
-        else:
-            return "Intense"
+    

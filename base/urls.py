@@ -6,7 +6,7 @@ from .views import (
     BlogPostCreateView,
     BlogPostUpdateView,
     BlogPostDeleteView,
-    logout,
+    
     FoodItemListView,
     FoodItemDetailView,
     FoodItemCreateView,
@@ -17,20 +17,25 @@ from .views import (
     MealDetailView,
     MealCreateView,
     MealUpdateView,
-    MealDeleteView
+    MealDeleteView,
+    
+    ExerciseCreateView,
+    ExerciseDeleteView,
+    ExerciseListView,
+    ExerciseUpdateView,
 )
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
-    # blogcrud urls - use /blog/ prefix
+    # blogcrud urls 
     path('blog/<int:pk>/delete/', BlogPostDeleteView.as_view(), name='blog-delete'),
     path('blog/', BlogPostListView.as_view(), name='blog-list'),
     path('blog/<int:pk>/', BlogPostDetailView.as_view(), name='blog-detail'),
     path('blog/new/', BlogPostCreateView.as_view(), name='blog-post'),
     path('blog/<int:pk>/edit/', BlogPostUpdateView.as_view(), name='blog-update'),
 
-    # fooditem crud urls - use /food/ prefix
+    # fooditem crud urls 
     path('food/', FoodItemListView.as_view(), name='food-list'),
     path('food/<int:pk>/', FoodItemDetailView.as_view(), name='food-detail'),
     path('food/new/', FoodItemCreateView.as_view(), name='food_item'),
@@ -44,9 +49,14 @@ urlpatterns = [
     path('meal/<int:pk>/edit/', MealUpdateView.as_view(), name='update_meal'),
     path('meal/<int:pk>/delete/', MealDeleteView.as_view(), name='home'),
     
+    path('exercise/',  ExerciseListView.as_view(), name='home'),
+    path('exercise/new/', ExerciseCreateView.as_view(), name='log_exercise'),
+    path('exercise/<int:pk>/edit/', ExerciseUpdateView.as_view(), name='update-exercise'),
+    path('exercise/<int:pk>/delete/', ExerciseDeleteView.as_view(), name='home'),
     
-    path('', views.home, name='home'),
-    path('home/', views.home, name='home'),
+    
+    path('', views.dashboard, name='dashboard'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('sign-up/', views.signup, name='signup'),
     path('login/', LoginView.as_view(template_name='base/registration/login.html'), name='login'),
     path('logout/', views.logout, name='logout'),

@@ -12,9 +12,13 @@ from django.contrib.postgres.search import SearchVector
 
 
 # Home view
-def home(request):
-    return render(request, 'base/home.html')
+def dashboard(request):
+    total_calories = sum(item.calories() for item in MealItem.objects.filter(meal__user=request.user))
 
+    return render(request, 'base/dashboard.html', {
+        'calories': total_calories
+    })
+    
 def logout(request):
     auth_logout(request)
     return redirect('/login/')
@@ -103,16 +107,13 @@ class BlogPostUpdateView(UpdateView):
 
 
 # food item crud operations 
-
-
 class FoodItemCreateView(CreateView):
     model = FoodItem
     template_name = "base/food/food_item.html"
     form_class = FoodItemForm  
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("dashboard")
     
     def form_valid(self, form):
-     
         form.instance.user = self.request.user  
         return super().form_valid(form)
 
@@ -142,7 +143,7 @@ class FoodItemUpdateView(UpdateView):
     model = FoodItem
     template_name = "base/food/food-list.html"
     form_class = FoodItemForm  
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('dashboard')
     
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -154,7 +155,7 @@ class FoodItemUpdateView(UpdateView):
 class FoodItemDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
     model = FoodItem
     template_name = "base/food/food-delete.html"  
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('dashbard')
     
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -173,7 +174,7 @@ class MealCreateView(CreateView):
     model = Meal
     template_name = "base/meal_item/add_meal.html"
     form_class = MealForm
-    success_url = reverse_lazy ('home')
+    success_url = reverse_lazy ('dashboard')
     
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -183,7 +184,7 @@ class MealCreateView(CreateView):
 class MealUpdateView(UpdateView):
      model = Meal
      template_name = "base/meal_item/update_meal.html"
-     success_url =reverse_lazy ('home')
+     success_url =reverse_lazy ('dashboard')
      fields = ['name','date', 'time', 'foods']
 
      
@@ -205,8 +206,8 @@ class MealListView(ListView):
 
 class MealDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Meal
-    template_name = "base/home.html"
-    success_url = reverse_lazy('home')
+    template_name = "base/dashboard.html"
+    success_url = reverse_lazy('dashboard')
     
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -231,3 +232,69 @@ class MealDetailView(DetailView):
             raise PermissionDenied("you are not allowed to view this item")
         else:
             return obj 
+
+
+class ExerciseCreateView(CreateView):
+    model = Exercise
+    form_class = Exerciseform
+    template_name = "base/exercise/log_exercise.html"
+    success_url = reverse_lazy("dashboard")
+    
+    def form_valid(self,form):
+        form.instance.author = self.request.author
+        return super().form_valid()
+
+
+class ExerciseListView(ListView):
+    model = Exercise
+    template_name = "base/exercise/exercise_list.html"
+    context_object_name = 'exercises'
+    
+
+
+class ExerciseUpdateView(UpdateView):
+    model = Exercise
+    template_name = "base/exercise/log_exercise.html"
+    success_url = reverse_lazy ("dashboard")
+    
+    def get_object(self,):
+        obj = super().get_object()
+        
+        if obj.user != self.request.user:
+            raise PermissionDenied("you are jot allowed to updatethis item")
+        
+        return obj
+    
+
+class ExerciseDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
+    model = Exercise
+    template_name = "base/exercise/delete-log.html"
+    success_url = reverse_lazy ("dashboard")
+    
+    def get_object(self,):
+        obj = super().get_object()
+    
+        if obj.user != self.request.user:
+            raise PermissionDenied("you are jot allowed to delete this item")
+        
+        return obj
+        
+    def test_func(self):
+        obj = self.get_object
+        return self.request.user == obj.user
+
+def add_mealitem(request):
+    if request.method == "POST":
+        form = MealItemForm(request.POST)
+        
+        if form.is_valid():
+            meal_item = form.save(commit=False)
+            meal_item.meal.user = request.user
+            return redirect("dashboard")
+        
+        else:
+            form = MealItemForm()
+            
+        return render(request, 'base/meal_item/add_meal.html', {'form': form})
+  
+            

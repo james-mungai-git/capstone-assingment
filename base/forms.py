@@ -43,10 +43,10 @@ class MealItemForm(forms.ModelForm):
 class FoodItemForm(forms.ModelForm):
     class Meta:
         model = FoodItem
-        fields = ['name', 'user']
+        fields = ['name', 'user', 'calories_per_100g']
 
 class Exerciseform(forms.ModelForm):
     class Meta:
         model = Exercise
-        fields = ["rep_name", "category","duration_minutes", "calories_burnt" ]
+        fields = ["rep_name", "category","duration_minutes", "calories_burned" ]
         

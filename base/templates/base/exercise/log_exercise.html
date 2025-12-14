@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    Log exercise
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block main_class %}page-content{% endblock %}
+
+
+{% block content %}
+<form method="post" class="log-exercise">
+    {% csrf_token %}
+     <label for="id_rep_name">exercise name</label>
+     {{ form.rep_name }}
+     <label for="id_category">category</label>
+     {{ form.category }}
+     <label for="id_duration_minutes">duration of the exercise</label>
+     {{ form.duration_minutes }}
+     <label for="id_calories_burned">caalories burnt</label>
+     {{ form.calories_burned }}
+</form>
+{% endblock %}

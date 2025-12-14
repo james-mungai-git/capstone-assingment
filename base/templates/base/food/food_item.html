@@ -9,7 +9,12 @@
 {% if user.is_authenticated %}
     <form method="POST">
         {% csrf_token %}
-        {% crispy form %}
+        <label for="id_name"> name </label>
+        {{form.name}}
+        <label for="id_user">user</label>
+        {{form.user}}
+        <label for="id_calories_per_100g">calories per 100g</label>
+        {{form.calories_per_100g}}
         <button type="submit">Save</button>
     </form>
 {% else %}

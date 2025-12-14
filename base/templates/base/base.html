@@ -13,10 +13,10 @@
     <!-- Header / Navigation -->
     <header class="header">
         <nav class="nav-links">
-            <div class="nav-link"><a href="/home">home</a></div>
+            <div class="nav-link"><a href="{% url 'dashboard' %}">dashboard</a></div>
 
             {% if user.is_authenticated%}
-            <div class="nav-link"><a href="{% url 'blog-list' %}">community forum</a></div>
+            <div class="nav-link"><a href="{% url 'blog-list' %}" title="go to your dashboard">community forum</a></div>
             <div class="nav-link"><a href="{% url 'blog-post' %}"> blog post </a></div>
             <div class="nav-link"><a href="{% url 'user-profile' %}"> {{user.username}}'s profile </a></div>
             <div class="nav-link"><a href="{% url 'logout' %}">logout</a></div>
