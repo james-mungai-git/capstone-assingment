@@ -10,6 +10,8 @@ body {
     background-color: black;
 }
 
+
+
 .nav-links {
     display: flex;
     align-items: center;
@@ -26,10 +28,16 @@ body {
     display: grid;
     justify-content: center;
     align-items: center;
-    padding: 100px;
+    padding: 1.5rem;
     background: whitesmoke;
-    box-shadow: inset 0px -26px 79px -8px rgba(0, 0, 0, 0.58);
-    transition: 10s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);    
+    transition: 3s;
+}
+
+.login:hover{
+    box-shadow: 0px 6px 15px rgba(0, 0, 0,3);    
+
+
 }
 .login label {
     display: block;
@@ -41,8 +49,12 @@ body {
 }
 
 .login input {
-    border-radius: 3px;
-    transition: 5s;
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .login input:hover{
@@ -57,13 +69,27 @@ body {
     align-items: center;
     padding: 2rem;
     background: white;
-    box-shadow: inset 0px -26px 79px -8px rgba(0, 0, 0, 0.58);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    transition: 3s;   
+}
+.register:hover{
+    box-shadow: 0px 6px 15px rgba(0, 0, 0,3);    
+
+
 }
 .register label{
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     font-weight: bold;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.register input {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 .post {
     display: grid;
@@ -118,3 +144,24 @@ body {
     padding-bottom: 2px;
     text-decoration: none;
 }
+
+.meal-item{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    margin: 2rem;
+}
+
+.meal{
+   padding: 1.5rem;
+
+}
+.content{
+    margin: 2rem;
+}
+.meal-link{
+    text-decoration: none;
+    color: rgb(58, 120, 220);
+    font-size: larger;
+}
+

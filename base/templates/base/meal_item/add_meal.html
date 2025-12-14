@@ -3,15 +3,32 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<form method="post">
+<div class="meal-item">
+    <form method="post">
     {% csrf_token %}
-    <label for="id_meal"> Enter meal</label>
-    {{form.meal}}
-    <label for="id_food">Enter food</label>
-    {{form.food}}
-    <label for="id_quantity"> quantity eaten </label>
-    {{form.quantity}}
+    <div class="meal">
+        <label for="id_meal"> Enter meal</label>
+        {{form.meal}}
+    </div>
+    
+
+    <div class="meal">
+        <label for="id_food">Enter food</label>
+        {{form.food}}
+    </div>
+   
+
+    <div class="meal">
+        <label for="id_quantity"> quantity eaten </label>
+         {{form.quantity}}
+    </div>
+    
+
+    <button type="submit" > save </button>
 
 </form>
+
+</div>
+
 
 {% endblock %}
