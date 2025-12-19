@@ -4,19 +4,18 @@
 <div class="content">
 
     <aside class="sidebar">
-        <p> add food item <a href="{% url 'food_item'%}" class="homepage-link"> here </a></p> 
         <h4>add meal item </h4> 
 
         <div class="meal-content"> 
-            <p> breakfast</p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a> 
+            <p> breakfast</p> <a href="{% url 'meal-list' 'breakfast' %}" class="meal-link"> {{breakfast_total}} </a>
         </div> 
 
         <div class="meal-content"> 
-            <p> lunch </p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a> 
+            <p> lunch </p> <a href="{% url 'meal-list' 'lunch' %}" class="meal-link"> {{lunch_total}} </a> 
         </div> 
 
         <div class="meal-content"> 
-            <p> dinner </p> <a href="{% url 'add_meal' %}" class="meal-link"> 0 </a>
+            <p> dinner </p> <a href="{% url 'meal-list' 'dinner' %}" class="meal-link"> {{dinner_total}} </a>
         </div>
 
         <div class="log-rep">
@@ -27,7 +26,4 @@
     
  </div>
 
- <div class="calories">
-    <p>you have eaten {{calories}}</p>
- </div>
   {% endblock %}

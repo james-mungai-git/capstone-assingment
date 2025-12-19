@@ -6,13 +6,7 @@ from .views import (
     BlogPostCreateView,
     BlogPostUpdateView,
     BlogPostDeleteView,
-    
-    FoodItemListView,
-    FoodItemDetailView,
-    FoodItemCreateView,
-    FoodItemUpdateView,
-    FoodItemDeleteView,
-    
+ 
     MealListView,
     MealDetailView,
     MealCreateView,
@@ -34,16 +28,9 @@ urlpatterns = [
     path('blog/<int:pk>/', BlogPostDetailView.as_view(), name='blog-detail'),
     path('blog/new/', BlogPostCreateView.as_view(), name='blog-post'),
     path('blog/<int:pk>/edit/', BlogPostUpdateView.as_view(), name='blog-update'),
-
-    # fooditem crud urls 
-    path('food/', FoodItemListView.as_view(), name='food-list'),
-    path('food/<int:pk>/', FoodItemDetailView.as_view(), name='food-detail'),
-    path('food/new/', FoodItemCreateView.as_view(), name='food_item'),
-    path('food/<int:pk>/edit/', FoodItemUpdateView.as_view(), name='food-update'),
-    path('food/<int:pk>/delete/', FoodItemDeleteView.as_view(), name='food-delete'),
     
     # meal item crud 
-    path('meal/',  MealListView.as_view(), name='home'),
+    path('meal/<str:meal_type>',  MealListView.as_view(), name='meal-list'),
     path('meal/<int:pk>/', MealDetailView.as_view(), name='meal-detail'),
     path('meal/new/', MealCreateView.as_view(), name='add_meal'),
     path('meal/<int:pk>/edit/', MealUpdateView.as_view(), name='update_meal'),

@@ -14,26 +14,19 @@
             </div>
 
             <div class="meal">
-                <label for="id_date">Enter date</label>
-                {{ form.date }}
+                <label for="id_food">Food item</label>
+                {{ form.food }}
             </div>
 
-            <div class="meal">
-                <label for="id_time">Time eaten</label>
-                {{ form.time }}
-            </div>
-
-            <div class="meal">
-                <label for="id_foods">Foods</label>
-                {{ form.foods }}
-            </div>
-
-            <div class="meal">
+              <div class="meal">
                 <label for="id_quantity">quantity eaten</label>
                 {{ form.quantity }}
-            </div>
-                        
 
+            </div>
+              <div class="meal">
+                <label for="id_calories_per_100g">calories per 100g</label>
+                {{ form.calories_per_100g }}
+            </div>
             <button type="submit" > save </button>
 
         </form>

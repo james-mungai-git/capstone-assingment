@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% block title %}add meal  {% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="meal-list">
+    <h2>{{meal_type}} foods logged today</h2>
+{% for item in meals %}
+
+<div class="list">
+    <p>{{item.food}}-{{item.quantity}}grams {{item.calories|floatformat:0}} Kcal</p>
+    <a href="{% url 'update_meal' item.pk %}" class="btn btn-success"> edit </a>
+    <a href="{% url 'add_meal' %}" class="btn btn-danger">delete</a>
+</div>
+
+{% empty %}
+<p>no foods logged for {{meal_type}} today </p>
+{% endfor %}
+<a href="{% url 'add_meal' %}" class="btn btn-success">add meal</a>
+
+</div>
+
+{% endblock %}

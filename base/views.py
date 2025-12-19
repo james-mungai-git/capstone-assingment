@@ -1,23 +1,33 @@
 from django.shortcuts import render, redirect
-from .forms import Register, UserProfileForm, BlogPostForm, MealItemForm, MealForm, Exerciseform
-from .models import UserProfile, FoodItem, BlogPost, MealItem, Meal, Exercise
+from .forms import Register, UserProfileForm, BlogPostForm, MealForm, Exerciseform
+from .models import UserProfile,  BlogPost,  Meal, Exercise
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django import forms
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import logout as auth_logout
-from .forms import FoodItemForm
-from django.contrib.postgres.search import SearchVector
-
+from datetime import date
 
 # Home view
-def dashboard(request):
-    total_calories = sum(item.calories() for item in MealItem.objects.filter(meal__user=request.user))
+from django.shortcuts import render, redirect
 
-    return render(request, 'base/dashboard.html', {
-        'calories': total_calories
+def dashboard(request):
+    today = date.today()
+
+    breakfast_meals = Meal.objects.filter(user=request.user, name="Breakfast", date=today)
+    lunch_meals = Meal.objects.filter(user=request.user, name="Lunch", date=today)
+    dinner_meals = Meal.objects.filter(user=request.user, name="Dinner", date=today)
+
+    breakfast_total = sum(item.calories() for item in breakfast_meals)
+    lunch_total = sum(item.calories() for item in lunch_meals)
+    dinner_total = sum(item.calories() for item in dinner_meals)
+
+    return render(request, "base/dashboard.html", {
+        "breakfast_total": breakfast_total,
+        "lunch_total": lunch_total,
+        "dinner_total": dinner_total,
     })
+  
     
 def logout(request):
     auth_logout(request)
@@ -103,70 +113,6 @@ class BlogPostUpdateView(UpdateView):
         post = self.get_object
         return self.request.author == post.author
     
-
-
-
-# food item crud operations 
-class FoodItemCreateView(CreateView):
-    model = FoodItem
-    template_name = "base/food/food_item.html"
-    form_class = FoodItemForm  
-    success_url = reverse_lazy("dashboard")
-    
-    def form_valid(self, form):
-        form.instance.user = self.request.user  
-        return super().form_valid(form)
-
-
-class FoodItemListView(ListView):
-    model = FoodItem
-    template_name = "base/food/food-list.html"
-    context_object_name = 'foods'
-    
-    def get_queryset(self):
-        return FoodItem.objects.filter(user=self.request.user)
-
-
-class FoodItemDetailView(DetailView):
-    model = FoodItem
-    template_name = "base/food/food-detail.html"
-    context_object_name = 'food'
-    
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if obj.user != self.request.user:
-            raise PermissionDenied("You don't have permission to view this food item")
-        return obj
-
-
-class FoodItemUpdateView(UpdateView):
-    model = FoodItem
-    template_name = "base/food/food-list.html"
-    form_class = FoodItemForm  
-    success_url = reverse_lazy('dashboard')
-    
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if obj.user != self.request.user:
-            raise PermissionDenied("You can only edit your own food items")
-        return obj
-
-
-class FoodItemDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
-    model = FoodItem
-    template_name = "base/food/food-delete.html"  
-    success_url = reverse_lazy('dashbard')
-    
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if obj.user != self.request.user:
-            raise PermissionDenied("You can only delete your own food items")
-        return obj
-    
-    def test_func(self):
-        obj = self.get_object()
-        return self.request.user == obj.user
-
 # mealitem crud
 
 
@@ -178,14 +124,15 @@ class MealCreateView(CreateView):
     
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.date = date.today()
         return super().form_valid(form)
     
  
 class MealUpdateView(UpdateView):
      model = Meal
-     template_name = "base/meal_item/update_meal.html"
+     template_name = "base/meal_item/add_meal.html"
      success_url =reverse_lazy ('dashboard')
-     fields = ['name','date', 'time', 'foods']
+     fields = ['name', 'food', 'quantity', 'calories_per_100g']  
 
      
      def get_object(self, queryset=None):
@@ -198,12 +145,31 @@ class MealUpdateView(UpdateView):
 
 class MealListView(ListView):
     model = Meal
-    template_name = "base/meal_item/home.html"
+    template_name = "base/meal_item/meal-list.html"
     context_object_name = 'meals'
-    
-    def get_queryset(self):
-        return MealItem.objects.filter(user=self.request.user)
 
+    def get_queryset(self):
+        meal_type = self.kwargs.get('meal_type').capitalize() 
+        return Meal.objects.filter(
+            user=self.request.user,
+            name=meal_type,
+            date=date.today()
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['meal_type'] = self.kwargs.get('meal_type')
+        
+        breakfast_meals = Meal.objects.filter(user=self.request.user, name="Breakfast", date=date.today())
+        lunch_meals = Meal.objects.filter(user=self.request.user, name="Lunch", date=date.today())
+        dinner_meals = Meal.objects.filter(user=self.request.user, name="Dinner", date=date.today())
+
+        context['breakfast_total'] = sum(item.calories() for item in breakfast_meals)
+        context['lunch_total'] = sum(item.calories() for item in lunch_meals)
+        context['dinner_total'] = sum(item.calories() for item in dinner_meals)
+
+        return context
+    
 class MealDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Meal
     template_name = "base/dashboard.html"
@@ -283,18 +249,3 @@ class ExerciseDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
         obj = self.get_object
         return self.request.user == obj.user
 
-def add_mealitem(request):
-    if request.method == "POST":
-        form = MealItemForm(request.POST)
-        
-        if form.is_valid():
-            meal_item = form.save(commit=False)
-            meal_item.meal.user = request.user
-            return redirect("dashboard")
-        
-        else:
-            form = MealItemForm()
-            
-        return render(request, 'base/meal_item/add_meal.html', {'form': form})
-  
-            

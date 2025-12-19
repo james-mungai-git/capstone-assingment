@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import UserProfile, FoodItem, BlogPost, Meal, MealItem, Exercise
+from .models import UserProfile,  BlogPost, Meal, Exercise
 
 class Register(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -22,29 +22,24 @@ class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPost
         fields = ('title', 'content')
-class MealForm(forms.ModelForm):
+from django import forms
+from .models import Meal
 
+class MealForm(forms.ModelForm):
     class Meta:
         model = Meal
-        
-        fields = ['name','date', 'time', 'foods']
+        fields = ['name', 'food', 'quantity', 'calories_per_100g']  
+
         widgets = {
-            'foods': forms.CheckboxSelectMultiple()
+            'name': forms.Select(choices=[
+                ('Breakfast', 'Breakfast'),
+                ('Lunch', 'Lunch'),
+                ('Dinner', 'Dinner'),
+            ]),
+            'food': forms.TextInput(attrs={'placeholder': 'Enter food name'}),
+            'quantity': forms.NumberInput(attrs={'placeholder': 'Quantity in grams'}),
+            'calories_per_100g': forms.NumberInput(attrs={'placeholder': 'Calories per 100g'}),
         }
-
-
-class MealItemForm(forms.ModelForm):
-    class Meta:
-
-        model = MealItem
-        fields = ['meal', 'food', 'quantity']
-
-
-class FoodItemForm(forms.ModelForm):
-    class Meta:
-        model = FoodItem
-        fields = ['name', 'user', 'calories_per_100g']
-
 class Exerciseform(forms.ModelForm):
     class Meta:
         model = Exercise

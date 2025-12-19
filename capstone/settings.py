@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'capstone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',   # Database backend
-        'NAME': 'capstone_db',                       # Your database name
+        'NAME': 'base_db',                       # Your database name
         'USER': 'postgres',                          # Your DB username
         'PASSWORD': 'moonlight@1818',                 # Your DB password
         'HOST': 'localhost',                         # Or your DB server address
@@ -136,5 +136,5 @@ STATICFILES_DIRS = [BASE_DIR / "base" / "static"]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = '/login/' 
