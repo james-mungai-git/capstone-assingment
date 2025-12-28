@@ -5,22 +5,11 @@ from .views import (
     BlogPostDetailView,
     BlogPostCreateView,
     BlogPostUpdateView,
-    BlogPostDeleteView,
- 
-    MealListView,
-    MealDetailView,
-    MealCreateView,
-    MealUpdateView,
-    MealDeleteView,
-    
-    ExerciseCreateView,
-    ExerciseDeleteView,
-    ExerciseListView,
-    ExerciseUpdateView,
+    BlogPostDeleteView,  
 )
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView, LogoutView
-
+from django.contrib.auth  import views as auth_views
 urlpatterns = [
     # blogcrud urls 
     path('blog/<int:pk>/delete/', BlogPostDeleteView.as_view(), name='blog-delete'),
@@ -29,23 +18,24 @@ urlpatterns = [
     path('blog/new/', BlogPostCreateView.as_view(), name='blog-post'),
     path('blog/<int:pk>/edit/', BlogPostUpdateView.as_view(), name='blog-update'),
     
-    # meal item crud 
-    path('meal/<str:meal_type>',  MealListView.as_view(), name='meal-list'),
-    path('meal/<int:pk>/', MealDetailView.as_view(), name='meal-detail'),
-    path('meal/new/', MealCreateView.as_view(), name='add_meal'),
-    path('meal/<int:pk>/edit/', MealUpdateView.as_view(), name='update_meal'),
-    path('meal/<int:pk>/delete/', MealDeleteView.as_view(), name='home'),
-    
-    path('exercise/',  ExerciseListView.as_view(), name='home'),
-    path('exercise/new/', ExerciseCreateView.as_view(), name='log_exercise'),
-    path('exercise/<int:pk>/edit/', ExerciseUpdateView.as_view(), name='update-exercise'),
-    path('exercise/<int:pk>/delete/', ExerciseDeleteView.as_view(), name='home'),
-    
-    
-    path('', views.dashboard, name='dashboard'),
-    path('dashboard/', views.dashboard, name='dashboard'),
+   
+
     path('sign-up/', views.signup, name='signup'),
     path('login/', LoginView.as_view(template_name='base/registration/login.html'), name='login'),
     path('logout/', views.logout, name='logout'),
-    path('user-profile/', views.userprofile, name = 'user-profile')
+    path('user-profile/', views.userprofile, name = 'user-profile'),
+    
+    path('reset_password/', 
+         auth_views.PasswordResetView.as_view(template_name='base/registration/reset_password.html'),
+         name='reset_password'),
+    path('confirm_email/', 
+         auth_views.PasswordResetDoneView.as_view(template_name='base/registration/confirm_email.html'), 
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', 
+         auth_views.PasswordResetConfirmView.as_view(template_name='base/registration/password_reset_confirm.html'), 
+         name='password_reset_confirm'),
+    path('change-password/', 
+         auth_views.PasswordResetCompleteView.as_view(template_name='base/registration/change_password.html'), 
+         name='password_reset_complete')
+    
 ]

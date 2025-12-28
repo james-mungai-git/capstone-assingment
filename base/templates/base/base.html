@@ -15,10 +15,18 @@
         <nav class="nav-links">
             <div class="nav-link"><a href="{% url 'dashboard' %}">dashboard</a></div>
 
-            {% if user.is_authenticated%}
+            
             <div class="nav-link"><a href="{% url 'blog-list' %}" title="go to your dashboard">community forum</a></div>
             <div class="nav-link"><a href="{% url 'blog-post' %}"> blog post </a></div>
-            <div class="nav-link"><a href="{% url 'user-profile' %}"> {{user.username}}'s profile </a></div>
+
+            {% if user.is_authenticated %}
+            <div class="nav-link"><a href="{% url 'user-profile' %}"> {{user.username}}'sprofile </a></div>
+            {% else %}
+            <div class="nav-link"><a href="{% url 'user-profile' %}"> user profile </a></div>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
             <div class="nav-link"><a href="{% url 'logout' %}" onclick="return confirm('are you sure you want to logout?')">logout</a></div>
 
             {% else %}

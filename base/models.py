@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date, time
-from django.utils import timezone
+from datetime import date, timezone
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -45,41 +44,3 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
-    
-class Meal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)        # "Breakfast", "Lunch", "Dinner"
-    date = models.DateField(default=date.today)
-    time = models.TimeField(default=timezone.now)
-    food = models.CharField(max_length=200)
-    quantity = models.FloatField()
-    calories_per_100g = models.FloatField(default=0)
-    
-    def calories(self):
-        return int (self.calories_per_100g * (self.quantity / 100))
-
-    def __str__(self):
-        return f"{self.name} ({self.food}) on {self.date}"
-
-class Exercise(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    rep_name = models.CharField(max_length=100)  
-    category = models.CharField(
-        max_length=50,
-        choices=[
-            ('cardio', 'Cardio'),
-            ('strength', 'Strength'),
-            ('flexibility', 'Flexibility'),
-            ('other', 'Other'),
-        ],
-        default='cardio'
-    )
-    date = models.DateField(default=date.today)
-    time = models.TimeField(default=time(6, 0))  
-    duration_minutes = models.PositiveIntegerField()  
-    calories_burned = models.PositiveIntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.calories_burned}"
-
-    

@@ -16,8 +16,14 @@
 {% empty %}
 <p>no foods logged for {{meal_type}} today </p>
 {% endfor %}
-<a href="{% url 'add_meal' %}" class="btn btn-success">add meal</a>
 
+{% if user.is_authenticated %}
+<a href="{% url 'add_meal' %}" class="btn btn-success">add meal</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'add_meal' %}" class="btn btn-success" title="login to add meal">add meal</a>
+{% endif %}
+
+`
 </div>
 
 {% endblock %}

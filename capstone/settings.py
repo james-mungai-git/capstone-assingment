@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
+    'meals.apps.MealsConfig',
+    'exercise.apps.ExerciseConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     
@@ -75,12 +77,12 @@ WSGI_APPLICATION = 'capstone.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',   # Database backend
-        'NAME': 'base_db',                       # Your database name
-        'USER': 'postgres',                          # Your DB username
-        'PASSWORD': 'moonlight@1818',                 # Your DB password
-        'HOST': 'localhost',                         # Or your DB server address
-        'PORT': '5432',                              # Default PostgreSQL port
+        'ENGINE': 'django.db.backends.postgresql',   
+        'NAME': 'base_db',                     
+        'USER': 'postgres',                          
+        'PASSWORD': 'moonlight@1818',                 
+        'HOST': 'localhost',                       
+        'PORT': '5432',                           
     }
 }
 
@@ -138,3 +140,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = '/login/' 
+
+# settings.py (temporarily)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'lacius07@gmail.com'
+EMAIL_HOST_PASSWORD = 'moonlight@1818'
