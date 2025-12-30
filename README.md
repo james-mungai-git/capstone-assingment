@@ -25,7 +25,7 @@ Technologies Used
 Installation
 
 1. Clone the repository:
-   git clone [https://github.com/yourusername/calorie-counter-app.git](https://github.com/yourusername/calorie-counter-app.git)
+   git clone [https://github.com/yourusername/calorie-counter-app.git]([https://github.com/yourusername/calorie-counter-app.git](https://github.com/james-mungai-git/capstone-assingment.git))
 
 2. Navigate to the project directory:
    cd calorie-counter-app
