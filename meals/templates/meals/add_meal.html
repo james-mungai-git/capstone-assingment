@@ -42,15 +42,19 @@
                 </button>
             </div>
         </form>
+
         <ul class="list-group">
             {% for food in foods %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>{{ food.name }} - {{ food.calories_per_100g }} cal/100g</span>
-                    <a href="{% url 'add_meal' %}?food_id={{ food.id }}" class="btn btn-sm btn-outline-primary">
-                        Log this meal
-                    </a>
-                </li>
+            <div class="food-box">
+
+                <p>{{ food.name }} - {{ food.calories_per_100g }} cal/100g</p>
+                <a href="{% url 'add_meal' %}?food_id={{ food.id }}" class="btn btn-success">
+                    Log meal
+                </a>
+            </div>
+                   
             {% empty %}
+                <li class="list-group-item text-muted">No foods in the database yet.</li>
             {% endfor %}
         </ul>
 

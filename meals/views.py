@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from datetime import date
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage
 
 
 # Create your views here.
@@ -54,14 +55,25 @@ class MealCreateView(CreateView):
 
         return super().form_valid(form)
     
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search = self.request.GET.get('search')
-        
+        perpage = int(self.request.GET.get('perpage', 3))
+        page = int(self.request.GET.get('page', 1))
+
         if search:
-            context['foods']=Food.objects.filter(name__icontains=search)
+            foods = Food.objects.filter(name__icontains=search)
         else:
-            context['foods'] = Food.objects.none()
+            foods = Food.objects.all()
+
+        paginator = Paginator(foods, perpage)
+        try:
+            foods = paginator.page(page)
+        except EmptyPage:
+            foods = paginator.page(paginator.num_pages)  
+
+        context['foods'] = foods
         return context
     
     def get_initial(self):
