@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 55px;
+    background-color: black;
+}
+
+
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header > .nav-links > .nav-link > a {
+    color: azure;
+    text-decoration: none;
+}
+
+.login {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    background: whitesmoke;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);    
+    transition: 3s;
+}
+
+.login:hover{
+    box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.2);    
+
+
+}
+.login label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+}
+
+.login input {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login input:hover{
+    color: #cea135;
+    border-color: #cea135;
+
+}
+
+.register{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    transition: 3s;   
+}
+.register:hover{
+    box-shadow: 0px 6px 15px rgba(0, 0, 0,3);    
+
+
+}
+.register label{
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.register input {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

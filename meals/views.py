@@ -59,7 +59,7 @@ class MealCreateView(CreateView):
         search = self.request.GET.get('search')
         
         if search:
-            context['foods']=Food.objects.filter(name__icontaines=search)
+            context['foods']=Food.objects.filter(name__icontains=search)
         else:
             context['foods'] = Food.objects.none()
         return context
@@ -163,15 +163,3 @@ class MealDetailView(DetailView):
             raise PermissionDenied("you are not allowed to view this item")
         else:
             return obj 
-
-class FoodListView(ListView):
-    model = Food
-    template_name = "meals/add_meal.html"
-    context_object_name = "foods"
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        search = self.request.GET.get('search')
-        if search:
-            queryset = queryset.filter(name__icontains=search)
-        return queryset
