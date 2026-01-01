@@ -7,15 +7,15 @@
         <h4>add meal item </h4> 
 
         <div class="meal-content"> 
-            <p> breakfast</p> <a href="{% url 'meal-list' 'breakfast' %}" class="meal-link"> {{breakfast_total}} </a>
+            <p> breakfast</p> <a href="{% url 'meal-list' 'breakfast' %}" class="meal-link" title="click to add breakfast meal"> {{breakfast_total}} </a>
         </div> 
 
         <div class="meal-content"> 
-            <p> lunch </p> <a href="{% url 'meal-list' 'lunch' %}" class="meal-link"> {{lunch_total}} </a> 
+            <p> lunch </p> <a href="{% url 'meal-list' 'lunch' %}" class="meal-link" title ="click to add lunch meal"> {{lunch_total}} </a> 
         </div> 
 
         <div class="meal-content"> 
-            <p> dinner </p> <a href="{% url 'meal-list' 'dinner' %}" class="meal-link"> {{dinner_total}} </a>
+            <p> dinner </p> <a href="{% url 'meal-list' 'dinner' %}" class="meal-link" title="click to add dinner meal"> {{dinner_total}} </a>
         </div>
 
         <div class="log-rep">
@@ -23,7 +23,23 @@
         </div>
 
     </aside>
+
+    <div class="calorie-dashboard">
+        <h2>Calorie Budget</h2>
+        <div class="budget">{{ calorie_budget }}</div>
+
+        <a href="{% url 'meal-list' 'all' %}" class="meals-log-link">
+            <span class="flame-icon">🔥</span> Click here for Meals Log
+        </a>
+
+        <div class="apple-outline">
+            <div class="calories-left">{{ calories_left }}</div>
+            <div class="label">Left</div>
+            <div class="total">{{ calorie_budget }}</div>
+    </div>
+</div>
     
  </div>
+
 
   {% endblock %}

@@ -5,7 +5,7 @@ from .models import  Meal
 class MealForm(forms.ModelForm):
     class Meta:
         model = Meal
-        fields = ['name', 'food', 'quantity', 'calories_per_100g']  
+        fields = ['name', 'food', 'quantity', ]  
 
         widgets = {
             'name': forms.Select(choices=[

@@ -5,6 +5,7 @@ from .views import (
     MealCreateView,
     MealUpdateView,
     MealDeleteView,
+    FoodListView
 )
 from . import views
 
@@ -17,6 +18,8 @@ urlpatterns = [
     path('meal/new/', MealCreateView.as_view(), name='add_meal'),
     path('meal/<int:pk>/edit/', MealUpdateView.as_view(), name='update_meal'),
     path('meal/<int:pk>/delete/', MealDeleteView.as_view(), name='home'),
+    path("foods/", FoodListView.as_view(), name="food-list"),
+
     
   
 ]

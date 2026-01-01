@@ -18,8 +18,6 @@ urlpatterns = [
     path('blog/new/', BlogPostCreateView.as_view(), name='blog-post'),
     path('blog/<int:pk>/edit/', BlogPostUpdateView.as_view(), name='blog-update'),
     
-   
-
     path('sign-up/', views.signup, name='signup'),
     path('login/', LoginView.as_view(template_name='base/registration/login.html'), name='login'),
     path('logout/', views.logout, name='logout'),

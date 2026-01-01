@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    height: 100vh;
 }
 
 .header {
@@ -228,7 +229,7 @@ body {
 }
 .meal-sidebar{
     width: 220px;           
-    background-color: rgb(170, 190, 190);
+    background-color: #2f4f4f;
     color: white;
     padding-right: 1.5rem;
     height: 80vh;          
@@ -258,4 +259,114 @@ body {
 .list>p{
     font-weight: 700;
     font-size: larger;
+}
+.userprofile{
+    display:grid;
+    justify-content: center;
+    align-items:center;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+
+}
+.user-input{
+    padding: 10px;
+}
+.user-input input{
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    
+}
+.meal-add-search {
+    display: flex;              
+    align-items: flex-start;   
+    gap: 20px;                  
+}
+
+.meal-add-search .mb-3 {
+    flex: 1;                    
+    max-width: 600px;          
+}
+
+.input-group{
+    display: flex;
+}
+
+.form-control{
+    display: inline-block;
+    width: 600px;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.btn-outline-secondary{
+    font-size: large;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px,5px;
+    height: 37px;
+    width: 40px;
+    margin-left: -20px;
+}
+.content{
+    display: flex;
+    align-items: flex-start;
+    gap: 370px;
+}
+.calorie-dashboard {
+  text-align: center;
+  padding: 20px;
+}
+
+.budget {
+  font-size: 2rem;
+  color: #007bff;
+}
+
+.meals-log-link {
+  color: red;
+  font-weight: bold;
+  margin: 10px 0;
+  display: inline-block;
+}
+
+.apple-outline {
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.calories-left {
+  font-size: 3rem;
+  color: green;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  color: gray;
+}
+
+.total {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: gray;
 }

@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import Register, UserProfileForm, BlogPostForm
-from .models import  BlogPost
+from .models import  BlogPost, UserProfile
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import logout as auth_logout
-from datetime import date
-
+from django.db.models import Q
 def logout(request):
     auth_logout(request)
     return redirect('/login/')
@@ -25,18 +24,24 @@ def signup(request):
     return render(request, 'base/registration/sign_up.html', {'form': form})
 
 def userprofile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
     if request.method == "POST":
-        form = UserProfileForm(request.POST)
+        form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
-            return redirect('user-profile')
+            calories = profile.maintenance_calories
     else:
-        form = UserProfileForm()
+        form = UserProfileForm(instance=profile)
+        calories = profile.maintenance_calories  
 
-    return render(request, 'base/user-profile.html', {'form': form})
-
+    return render(request, 'base/user-profile.html', {
+        'form': form,
+        'profile': profile,
+        'calories': calories
+    })
 # blogpost crud operations
 
 class BlogPostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -63,16 +68,22 @@ class BlogPostListView(ListView):
     template_name = "base/blog/blog-list.html"
     context_object_name = 'posts'
     ordering = ['-published_date']
-    def search(request):
-        search = request.queryset_params.get('search')
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
         if search:
-            items = items.filter(title__icontains=search)
-    
+            queryset = queryset.filter(
+                Q(title__icontains=search) |
+                Q(author__username__icontains=search)
+                )
+        return queryset
+
 
 class BlogPostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = BlogPost
     template_name = "base/blog/blog-delete.html"
-    success_url = reverse_lazy("blog-list")  # usually list view
+    success_url = reverse_lazy("blog-list")  
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -96,7 +107,7 @@ class BlogPostUpdateView(UpdateView):
         post = self.get_object
         return self.request.author == post.author
     
-# mealitem crud
+
 
 
 
