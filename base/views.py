@@ -12,7 +12,14 @@ from .serializers import (
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator, EmptyPage
+from django.db.models import Q
+from rest_framework.pagination import PageNumberPagination
 
+class Pagination(PageNumberPagination):
+    page_size = 3             
+    page_size_query_param = 'perpage'  
+    max_page_size = 50   
 
 class RegisterViewSet(generics.CreateAPIView):
     serializer_class = RegisterUserSerializer
@@ -59,8 +66,9 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     serializer_class = BlogPostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [filters.SearchFilter]
-    search_fields = ["title", "author__username"]
-
+    search_fields = ["title", "author__username","content"]
+    pagination_class=Pagination
+    
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
         limit = int(self.request.GET.get('limit',10))
@@ -81,8 +89,24 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         if instance.author != self.request.user:
             raise permissions.PermissionDenied("You cannot delete this post")
         instance.delete()
+    
+    def get_queryset(self):
+        queryset = BlogPost.objects.all().order_by("-published_date")
+        search=self.request.GET.get('search')
+        
+        if search:
+            queryset = BlogPost.objects.filter(
+                        Q(title__icontains=search) |
+                        Q(author__username__icontains=search) |
+                        Q(content__icontains=search)
+                    )
+        else:
+            queryset=BlogPost.objects.all()
 
-
+      
+        
+        return queryset        
+    
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
