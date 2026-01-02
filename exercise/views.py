@@ -1,62 +1,23 @@
-from .forms import  Exerciseform
-from .models import  Exercise
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
-from django.core.exceptions import PermissionDenied
+from rest_framework import viewsets, permissions
+from .models import Exercise
+from .serializers import ExerciseSerializer
 
+class ExerciseViewSet(viewsets.ModelViewSet):
+    serializer_class = ExerciseSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-class ExerciseCreateView(CreateView):
-    model = Exercise
-    form_class = Exerciseform
-    template_name = "exercise/log_exercise.html"
-    success_url = reverse_lazy("dashboard")
-    
-    def form_valid(self,form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    def get_queryset(self):
+        return Exercise.objects.filter(user=self.request.user).order_by('-date', '-time')
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-class ExerciseListView(ListView):
-    model = Exercise
-    template_name = "exercise/exercise_list.html"
-    context_object_name = 'exercises'
-    
+    def perform_update(self, serializer):
+        if serializer.instance.user != self.request.user:
+            raise permissions.PermissionDenied("You cannot update this exercise.")
+        serializer.save()
 
-
-class ExerciseUpdateView(UpdateView):
-    model = Exercise
-    template_name = "exercise/log_exercise.html"
-    success_url = reverse_lazy ("dashboard")
-    
-    def get_object(self,):
-        obj = super().get_object()
-        
-        if obj.user != self.request.user:
-            raise PermissionDenied("you are jot allowed to updatethis item")
-        
-        return obj
-    
-
-class ExerciseDeleteView(LoginRequiredMixin, UserPassesTestMixin,DeleteView):
-    model = Exercise
-    template_name = "excercise/delete-log.html"
-    success_url = reverse_lazy ("dashboard")
-    
-    def get_object(self,):
-        obj = super().get_object()
-    
-        if obj.user != self.request.user:
-            raise PermissionDenied("you are jot allowed to delete this item")
-        
-        return obj
-        
-    def test_func(self):
-        obj = self.get_object
-        return self.request.user == obj.user
-
-
-
-
-
-
+    def perform_destroy(self, instance):
+        if instance.user != self.request.user:
+            raise permissions.PermissionDenied("You cannot delete this exercise.")
+        instance.delete()
