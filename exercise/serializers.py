@@ -6,7 +6,6 @@ User = get_user_model()
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
-    # Show the username instead of user ID
     user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
