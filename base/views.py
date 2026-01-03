@@ -40,7 +40,6 @@ class RegisterViewSet(generics.CreateAPIView):
             status=status.HTTP_201_CREATED,
         )
 
-
 class LoginViewSet(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = (permissions.AllowAny,)
@@ -59,7 +58,6 @@ class LoginViewSet(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK,
         )
-
 
 class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.all().order_by("-published_date")
@@ -102,11 +100,9 @@ class BlogPostViewSet(viewsets.ModelViewSet):
                     )
         else:
             queryset=BlogPost.objects.all()
-
-      
         
         return queryset        
-    
+
 class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -122,4 +118,4 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     def maintenance_calories(self, request):
         profile = get_object_or_404(UserProfile, user=request.user)
         calories = profile.maintenance_calories()
-        return Response({"maintenance_calories": calories}, status=status.HTTP_200_OK)
+        return Response({"your maintenance_calories": calories}, status=status.HTTP_200_OK)

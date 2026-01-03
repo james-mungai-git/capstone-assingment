@@ -17,10 +17,10 @@ class Meal(models.Model):
     date = models.DateField(default=date.today)
     time = models.TimeField(default=timezone.now)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)  
-    quantity = models.FloatField()  
+    quantity_in_grams = models.FloatField()  
 
     def calories(self):
-        return int(self.food.calories_per_100g * (self.quantity / 100))
+        return int(self.food.calories_per_100g * (self.quantity_in_grams / 100))
 
     def __str__(self):
         return f"{self.name} ({self.food.name}) on {self.date}"
