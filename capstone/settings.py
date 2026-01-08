@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'rest_framework',
     'rest_framework.authtoken',
+    'djoser'
     
 ]
 
@@ -79,14 +80,15 @@ WSGI_APPLICATION = 'capstone.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',   
-        'NAME': 'base_db',                     
-        'USER': 'postgres',                          
-        'PASSWORD': 'moonlight@1818',                 
-        'HOST': 'localhost',                       
-        'PORT': '5432',                           
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'base_db',
+        'USER': 'postgres',
+        'PASSWORD': 'moonlight@1818',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -157,4 +159,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+}
+
+DJOSER = {
+    'USER_ID_FIELD':'username'
 }
