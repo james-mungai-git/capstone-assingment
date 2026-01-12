@@ -13,15 +13,25 @@ class FoodSerializer(serializers.ModelSerializer):
 
 class MealSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
-    food = serializers.CharField(write_only=True) 
+    food = serializers.CharField(write_only=True)
     calories = serializers.SerializerMethodField()
-    food_id = serializers.ReadOnlyField(source='food.id')  
-    date = serializers.ReadOnlyField()  
-    time = serializers.ReadOnlyField()  
+    food_id = serializers.ReadOnlyField(source='food.id')
+    date = serializers.ReadOnlyField()
+    time = serializers.ReadOnlyField()
 
     class Meta:
         model = Meal
-        fields = ['id', 'user', 'name', 'food', 'food_id', 'quantity_in_grams', 'calories', 'date', 'time']
+        fields = [
+            'id', 
+            'user', 
+            'name', 
+            'food', 
+            'food_id', 
+            'quantity_in_grams', 
+            'calories', 
+            'date', 
+            'time'
+        ]
 
     def get_calories(self, obj):
         return obj.calories()
@@ -31,7 +41,9 @@ class MealSerializer(serializers.ModelSerializer):
         try:
             food_instance = Food.objects.get(name__iexact=food_name)
         except Food.DoesNotExist:
-            raise serializers.ValidationError(f"Food '{food_name}' does not exist.")
+            raise serializers.ValidationError(
+                f"Food '{food_name}' does not exist."
+            )
 
         meal = Meal.objects.create(food=food_instance, **validated_data)
         return meal

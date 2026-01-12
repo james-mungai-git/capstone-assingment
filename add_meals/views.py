@@ -4,19 +4,20 @@ from .serializers import MealSerializer, FoodSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from datetime import date
-from django.core.paginator import Paginator, EmptyPage
 from rest_framework.pagination import PageNumberPagination
 
+
 class Pagination(PageNumberPagination):
-    page_size = 3             
-    page_size_query_param = 'perpage'  
-    max_page_size = 50     
-    page_query_param = 'page'   
+    page_size = 3
+    page_size_query_param = 'perpage'
+    max_page_size = 50
+    page_query_param = 'page'
+
 
 class FoodViewSet(viewsets.ModelViewSet):
     serializer_class = FoodSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    pagination_class = Pagination  
+    pagination_class = Pagination
 
     def get_queryset(self):
         queryset = Food.objects.all()
@@ -24,13 +25,14 @@ class FoodViewSet(viewsets.ModelViewSet):
 
         if search:
             queryset = queryset.filter(name__icontains=search)
-        
-        return queryset    
+
+        return queryset
+
 
 class MealViewSet(viewsets.ModelViewSet):
     serializer_class = MealSerializer
     permission_classes = [permissions.IsAuthenticated]
-    pagination_class=Pagination
+    pagination_class = Pagination
 
     def get_queryset(self):
         queryset = Meal.objects.filter(user=self.request.user).order_by('-date', '-time')
@@ -43,7 +45,6 @@ class MealViewSet(viewsets.ModelViewSet):
         if search:
             queryset = queryset.filter(name__icontains=search)
 
-        
         return queryset
 
     def perform_create(self, serializer):
