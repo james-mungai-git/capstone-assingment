@@ -1,12 +1,13 @@
 from pathlib import Path
+import os
+import dj_database_url
 
-# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
-SECRET_KEY = 'django-insecure-m58dy=m(+l#uf74a72_^y#@w4=00wxpo@%+v^7siz(i-htk#cd'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-for-dev')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = ['.onrender.com', 'localhost']
 
 # Application definition
 INSTALLED_APPS = [
@@ -19,15 +20,14 @@ INSTALLED_APPS = [
     'user_accounts',
     'add_meals',
     'log_exercises',
-    'crispy_forms',
-    'crispy_bootstrap5',
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser'
+    'djoser',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Whitenoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -55,16 +55,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'capstone.wsgi.application'
 
-# Database configuration
+# Database configuration (Render will provide DATABASE_URL)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'base_db',
-        'USER': 'postgres',
-        'PASSWORD': 'moonlight@1818',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 # Password validation
@@ -85,22 +82,19 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "base" / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Crispy forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Login settings
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = '/login/'
 
-# Email (temporary development settings)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+# Email (production-safe: values pulled from environment)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'lacius07@gmail.com'
-EMAIL_HOST_PASSWORD = 'moonlight@1818'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Django REST Framework
 REST_FRAMEWORK = {
