@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ExerciseConfig(AppConfig):
+class Add_MealsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'exercise'
+    name = 'add_meals'
