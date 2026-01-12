@@ -1,0 +1,20 @@
+[tool.poetry]
+package-mode = false
+name = "capstone_assignment"
+version = "0.1.0"
+description = ""
+authors = ["James Murigi <j.murigi.mungai.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.13"
+Django = "^5.0"
+djangorestframework = "^3.14"
+gunicorn = "^21.2"
+psycopg2-binary = "^2.9"
+whitenoise = "^6.6"
+dj-database-url = "^2.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
